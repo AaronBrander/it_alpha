@@ -1,0 +1,79 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Subdomain:</strong>
+  <%= @board.subdomain %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @board.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @board.description %>
+</p>
+
+<p>
+  <strong>Keywords:</strong>
+  <%= @board.keywords %>
+</p>
+
+<p>
+  <strong>Company name:</strong>
+  <%= @board.company_name %>
+</p>
+
+<p>
+  <strong>Address 1:</strong>
+  <%= @board.address_1 %>
+</p>
+
+<p>
+  <strong>Address 2:</strong>
+  <%= @board.address_2 %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @board.city %>
+</p>
+
+<p>
+  <strong>Region:</strong>
+  <%= @board.region %>
+</p>
+
+<p>
+  <strong>Postal code:</strong>
+  <%= @board.postal_code %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @board.country %>
+</p>
+
+<p>
+  <strong>Phone number:</strong>
+  <%= @board.phone_number %>
+</p>
+
+<p>
+  <strong>Contact email:</strong>
+  <%= @board.contact_email %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @board.state %>
+</p>
+
+<p>
+  <strong>Is private:</strong>
+  <%= @board.is_private %>
+</p>
+
+<%= link_to 'Edit', edit_board_path(@board) %> |
+<%= link_to 'Back', boards_path %>

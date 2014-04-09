@@ -11,10 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140409184321) do
+ActiveRecord::Schema.define(version: 20140409195439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "boards", force: true do |t|
+    t.string   "subdomain"
+    t.string   "name"
+    t.text     "description"
+    t.text     "keywords"
+    t.string   "company_name"
+    t.string   "address_1"
+    t.string   "address_2"
+    t.string   "city"
+    t.string   "region"
+    t.string   "postal_code"
+    t.string   "country"
+    t.string   "phone_number"
+    t.string   "contact_email"
+    t.integer  "state"
+    t.boolean  "is_private"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "boards", ["subdomain"], name: "index_boards_on_subdomain", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "first_name"
