@@ -1,4 +1,6 @@
 IdeaTrackerAlpha::Application.routes.draw do
+  resources :ideas
+
   resources :boards
 
   resources :users
