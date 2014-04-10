@@ -17,6 +17,12 @@ describe User do
   it { should respond_to(:password_digest) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }
+  it { should respond_to(:ideas) }
+  it { should respond_to(:boards) }
+  it { should respond_to(:memberships) }
+  it { should respond_to(:joined_boards) }
+  it { should respond_to(:relationships) }
+  it { should respond_to(:joined_ideas) }
 
   it { should be_valid }
   it { should_not be_admin }
