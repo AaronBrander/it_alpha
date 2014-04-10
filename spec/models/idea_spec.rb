@@ -2,12 +2,9 @@ require 'spec_helper'
 
 describe Idea do
   
+  let(:user) { FactoryGirl.create(:user) }
   before do
-  	@user = User.new(first_name: "Example", last_name: "User",
-    				email: "user@example.com", password: "foobar", 
-    				password_confirmation: "foobar")
-
-  	@idea = @user.ideas.build(name: "Idea 1", 
+  	@idea = user.ideas.build(name: "Idea 1", 
   		description: "This is my idea<br>With a line break",
   		number_of_likes: 5, number_of_dislikes: 10, board_id: 1)
 
