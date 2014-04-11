@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+   before_action :signed_in_user,  
+    only: [:index, :edit, :update, :destroy, :following, :followers]
+  before_action :correct_user,    only: [:edit, :update]
+  before_action :admin_user,      only: :destroy
+  before_action :already_signed_in, only: [:new, :create]
 
   # GET /users
   # GET /users.json
@@ -28,7 +33,9 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        sign_in @user
+        flash[:success] = "Welcome to the Idea Tracker!"
+        format.html { redirect_to @user }
         format.json { render action: 'show', status: :created, location: @user }
       else
         format.html { render action: 'new' }
@@ -69,6 +76,21 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :state, :password_digest, :remember_token, :admin)
+      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+    end
+
+     def already_signed_in
+      if signed_in?
+        redirect_to root_path, notice: "You are already signed in."
+      end
+    end
+
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_url) unless current_user?(@user)
+    end
+
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
     end
 end
