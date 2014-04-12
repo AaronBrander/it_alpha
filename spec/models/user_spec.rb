@@ -146,4 +146,37 @@ describe User do
       its(:remember_token) { should_not be_blank }
   end
 
+  describe "Join a board" do
+    let(:other_user) { FactoryGirl.create(:user) }
+    let(:board) { FactoryGirl.create(:board, user: @user) }
+    
+    before do 
+      @user.save
+      @user.join!(board)
+    end
+
+    it { should be_joined(board) }
+    its(:joined_boards) { should include(board) }
+
+    describe "contributing" do
+      subject { board }
+      its(:contributors) { should include(@user) }
+    end
+
+    describe "leave the board" do
+      before { @user.leave!(board) }
+
+      it { should_not be_joined(board) }
+      its(:joined_boards) { should_not include(board) }
+
+      describe "not contributing" do
+        subject { board }
+        its(:contributors) { should_not include(@user) }
+      end
+
+    end
+  end
+
+
+
 end

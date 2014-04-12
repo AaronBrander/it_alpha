@@ -22,6 +22,17 @@
   			<% end %>
   		</ul>
   	<% end %>
+
+  	<% if @user.joined_boards.any? %>
+  	<hr>
+  		<h3><%= pluralize(@user.joined_boards.count, "board") %> joined
+  		</h3>
+  		<ul class="board-list">
+  			<% @user.joined_boards.each do |board| %>
+  				<li><%= board.name %></li>
+  			<% end %>
+  		</ul>
+  	<% end %>
   </div>	
 </div>
 
