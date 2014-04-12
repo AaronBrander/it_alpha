@@ -5,10 +5,19 @@ describe "User Pages" do
 
 	describe "profile page" do
 	    let(:user) { FactoryGirl.create(:user) }
+	    let!(:board1) { FactoryGirl.create(:board, user: user) }
+	    let!(:board2) { FactoryGirl.create(:board, user: user) }
 	    before { visit user_path(user) }
 
 	    it { should have_content(user.first_name) }
 	    it { should have_title([user.first_name, user.last_name].join(' ')) }
+	    it { should have_selector('h2', text: 'Boards') }
+
+	    describe "has a list of owned boards" do 
+	    	it { should have_content(board1.name) }
+      		it { should have_content(board2.name) }
+      		it { should have_content(user.boards.count) }
+	    end
 	  end
 
   	describe "signup page" do
