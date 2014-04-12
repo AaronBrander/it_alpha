@@ -5,11 +5,63 @@ describe "User Pages" do
 
 	describe "profile page" do
 	    let(:user) { FactoryGirl.create(:user) }
+	    let!(:board1) { FactoryGirl.create(:board, user: user) }
+	    let!(:board2) { FactoryGirl.create(:board, user: user) }
+	    
+	    let(:user2) { FactoryGirl.create(:user) }
+		let!(:board3) { FactoryGirl.create(:board, user: user2) }
+		let!(:board4) { FactoryGirl.create(:board, user: user2) }
+	    
+	    ADD_BOARD_LINK = "Add a board"
+
 	    before { visit user_path(user) }
 
 	    it { should have_content(user.first_name) }
 	    it { should have_title([user.first_name, user.last_name].join(' ')) }
-	  end
+	    it { should have_selector('h2', text: 'Boards') }
+
+	    describe "has a list of owned boards" do 
+	    	it { should have_content(board1.name) }
+      		it { should have_content(board2.name) }
+      		it { should have_content(user.boards.count) }
+
+      		describe "not signed in - can't add a board" do
+	    		it { should_not have_link(ADD_BOARD_LINK, href: new_board_path) }
+		    end
+
+		    describe "signed in user can add a new board on his profile" do
+		    	before { sign_in user }
+		    	before { visit user_path(user) }
+
+		    	it { should have_link(ADD_BOARD_LINK, href: new_board_path) }
+			end
+
+			describe "signed in user can't add a new board on a different profile" do
+				
+		    	before { sign_in user }
+		    	before { visit user_path(user2) }
+
+		    	it { should_not have_link(ADD_BOARD_LINK, href: new_board_path) }
+			end
+	    end
+
+	    describe "has a list of joined boards" do
+	    	before do
+	    		user.join!(board1)
+	    		user.join!(board2)
+	    		user.join!(board3)
+	    		visit user_path(user)
+	    		
+	    	end
+
+	    	it { should have_content(user.joined_boards.count) }
+	    	it { should have_content(board3.name) }
+      		it { should_not have_content(board4.name) }
+	    		    	
+	    end
+
+
+	end
 
   	describe "signup page" do
 	    before { visit signup_path }
@@ -68,4 +120,6 @@ describe "User Pages" do
 	      end
 	    end
 	 end
+
+
 end

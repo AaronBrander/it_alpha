@@ -18,6 +18,18 @@ class User < ActiveRecord::Base
 	validates :password, length: { minimum: 6 }
 	has_secure_password
 
+	def join!(board)
+		memberships.create!(board_id: board.id)
+	end
+
+	def joined?(board)
+		memberships.find_by(board_id: board.id)
+	end
+
+	def leave!(board)
+		memberships.find_by(board_id: board.id).destroy
+	end
+
 	def User.new_remember_token
 		SecureRandom.urlsafe_base64
 	end
