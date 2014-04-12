@@ -7,6 +7,8 @@ describe "User Pages" do
 	    let(:user) { FactoryGirl.create(:user) }
 	    let!(:board1) { FactoryGirl.create(:board, user: user) }
 	    let!(:board2) { FactoryGirl.create(:board, user: user) }
+	    ADD_BOARD_LINK = "Add a board"
+
 	    before { visit user_path(user) }
 
 	    it { should have_content(user.first_name) }
@@ -18,7 +20,27 @@ describe "User Pages" do
       		it { should have_content(board2.name) }
       		it { should have_content(user.boards.count) }
 	    end
-	  end
+
+	    describe "not signed in - can't add a board" do
+	    	it { should_not have_link(ADD_BOARD_LINK, href: new_board_path) }
+	    end
+
+	    describe "signed in user can add a new board on his profile" do
+	    	before { sign_in user }
+	    	before { visit user_path(user) }
+
+	    	it { should have_link(ADD_BOARD_LINK, href: new_board_path) }
+		end
+
+		describe "signed in user can't add a new board on a different profile" do
+			let(:user2) { FactoryGirl.create(:user) }
+			let!(:board3) { FactoryGirl.create(:board, user: user2) }
+	    	before { sign_in user }
+	    	before { visit user_path(user2) }
+
+	    	it { should_not have_link(ADD_BOARD_LINK, href: new_board_path) }
+		end
+	end
 
   	describe "signup page" do
 	    before { visit signup_path }
