@@ -29,7 +29,11 @@
   		</h3>
   		<ul class="board-list">
   			<% @user.joined_boards.each do |board| %>
-  				<li><%= board.name %></li>
+  				<li><%= board.name %>
+              <% if current_user?(@user) %>
+              | <%= link_to "leave", membership_path(board.id), method: :delete, data: {confirm: "Are you sure?"} %>
+            <% end %>
+          </li>
   			<% end %>
   		</ul>
   	<% end %>

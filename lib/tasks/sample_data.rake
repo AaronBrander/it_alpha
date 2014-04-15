@@ -3,6 +3,7 @@ namespace :db do
   task populate: :environment do
     make_users
     make_boards
+    join_boards
     #make_ideas
   end
 end
@@ -48,6 +49,18 @@ def make_boards
                       is_private: false) 
       rescue
         #just continue making them. Likely the subdomain was not unique
+      end
+    end
+  end
+
+  def join_boards
+    users = User.all(limit: 6)
+    myList = Board.ids
+    users.each do |user|
+     myList = myList.shuffle
+      (0..5).each do |i|
+        board = Board.find(myList[i])
+        user.join!(board)
       end
     end
   end
