@@ -1,5 +1,6 @@
 class BoardsController < ApplicationController
   before_action :set_board, only: [:show, :edit, :update, :destroy]
+  before_action :signed_in_user, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /boards
   # GET /boards.json
@@ -24,11 +25,13 @@ class BoardsController < ApplicationController
   # POST /boards
   # POST /boards.json
   def create
-    @board = Board.new(board_params)
-
+    @board = current_user.boards.build(board_params)
+    @board.contact_email = current_user.email
+    
     respond_to do |format|
       if @board.save
-        format.html { redirect_to @board, notice: 'Board was successfully created.' }
+        flash[:success] = "Here's your new board!"
+        format.html { redirect_to @board  }
         format.json { render action: 'show', status: :created, location: @board }
       else
         format.html { render action: 'new' }
@@ -69,6 +72,6 @@ class BoardsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def board_params
-      params.require(:board).permit(:subdomain, :name, :description, :keywords, :company_name, :address_1, :address_2, :city, :region, :postal_code, :country, :phone_number, :contact_email, :state, :is_private)
+      params.require(:board).permit(:subdomain, :name, :description, :is_private)
     end
 end

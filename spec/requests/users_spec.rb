@@ -57,7 +57,39 @@ describe "User Pages" do
 	    	it { should have_content(user.joined_boards.count) }
 	    	it { should have_content(board3.name) }
       		it { should_not have_content(board4.name) }
-	    		    	
+
+      		describe "not signed in - can't leave board" do
+	    		it { should_not have_link("leave") }
+		    end
+
+		    describe "signed in user can leave board on his profile" do
+		    	before { sign_in user }
+		    	before { visit user_path(user) }
+
+		    	describe "should be able to delete the membership" do
+		    		it { should have_link("leave", href: membership_path(board3)) 	}
+
+		    		
+		    		it  "should delete" do
+      					
+      					expect do
+			            	click_link('leave', match: :first)
+			            end.to change(Membership, :count).by(-1)
+      				end
+      			end
+			end
+
+			describe "signed in user can't remove membership on a different profile" do
+				
+		    	before { sign_in user }
+		    	before do 
+		    		user2.join!(board1)
+		    		visit user_path(user2) 
+		    	end
+
+		    	it { should_not have_link("leave") }
+			end
+    		    	
 	    end
 
 

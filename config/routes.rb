@@ -3,6 +3,7 @@ IdeaTrackerAlpha::Application.routes.draw do
   resources :boards
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
+  resources :memberships, only: [:create, :destroy]
 
   root  'users#index'
   match '/signup', to: 'users#new', via: 'get'
