@@ -7,10 +7,18 @@ describe "User Pages" do
 	    let(:user) { FactoryGirl.create(:user) }
 	    let!(:board1) { FactoryGirl.create(:board, user: user) }
 	    let!(:board2) { FactoryGirl.create(:board, user: user) }
+	    let!(:idea1) { FactoryGirl.create(:idea, user: user, board: board1)}
+	    let!(:idea2) { FactoryGirl.create(:idea, user: user, board: board1)}
+	    let!(:idea3) { FactoryGirl.create(:idea, user: user, board: board2)}
+	    let!(:idea4) { FactoryGirl.create(:idea, user: user, board: board2)}
 	    
 	    let(:user2) { FactoryGirl.create(:user) }
 		let!(:board3) { FactoryGirl.create(:board, user: user2) }
 		let!(:board4) { FactoryGirl.create(:board, user: user2) }
+		let!(:idea5) { FactoryGirl.create(:idea, user: user2, board: board1)}
+		let!(:idea6) { FactoryGirl.create(:idea, user: user2, board: board1)}
+
+		
 	    
 	    ADD_BOARD_LINK = "Add a board"
 
@@ -92,7 +100,11 @@ describe "User Pages" do
     		    	
 	    end
 
-
+	    describe "has a list of created ideas" do
+	    	it { should have_content(idea1.name) }
+	    	it { should have_content(idea2.name) }
+      		it { should have_content(user.ideas.count.to_s + ' created') }
+		end
 	end
 
   	describe "signup page" do

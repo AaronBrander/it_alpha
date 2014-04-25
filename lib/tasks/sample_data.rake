@@ -4,7 +4,7 @@ namespace :db do
     make_users
     make_boards
     join_boards
-    #make_ideas
+    make_ideas
   end
 end
 
@@ -63,5 +63,24 @@ def make_boards
         user.join!(board)
       end
     end
+  end
+
+  def make_ideas
+    users = User.all(limit: 6)
+    boards = Board.all(limit: 6)
+    
+    users.each do |user| 
+      boards.each do |board|
+
+        begin
+          board.ideas.create!(name: Faker::Lorem.sentence(1),
+                        description: Faker::Lorem.sentence(5),
+                        user: user) 
+        rescue
+          #just continue making them. Likely the subdomain was not unique
+        end
+      end
+    end
+    
   end
 end

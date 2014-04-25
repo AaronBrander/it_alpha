@@ -32,4 +32,11 @@ FactoryGirl.define do
     end
 
   end
+
+  factory :idea do
+    sequence(:name) { |n| "Idea #{n}" }
+    description "This is the idea description"
+    user
+    board
+  end
 end
