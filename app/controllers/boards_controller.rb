@@ -11,6 +11,9 @@ class BoardsController < ApplicationController
   # GET /boards/1
   # GET /boards/1.json
   def show
+    @contributors = @board.contributors
+    @current_user_is_member = false
+    @contributors.each{|c| @current_user_is_member = true if c.id == current_user.id }
   end
 
   # GET /boards/new
