@@ -14,6 +14,10 @@ class BoardsController < ApplicationController
     @contributors = @board.contributors
     @current_user_is_member = false
     @contributors.each{|c| @current_user_is_member = true if c.id == current_user.id }
+    
+    if !@current_user_is_member
+      current_user.boards.each{|b| @current_user_is_member = true if b.id == @board.id }
+    end
   end
 
   # GET /boards/new
