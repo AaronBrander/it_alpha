@@ -1,27 +1,31 @@
-<header class="top-bar" data-topbar>
+<nav class="top-bar" data-topbar>
+  <ul class="title-area">
+    <li class="name">
+      <h1><%= link_to "Idea Tracker", root_path, id: "logo" %></h1>
+    </li>
+    <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+  </ul>
   <section class="top-bar-section">
-	  <ul class="title-area">
-	    <li class="name">
-	      <h1><%= link_to "Idea Tracker", root_path, id: "logo" %></h1>
-	    </li>
-			<ul class="right">
+    <ul class="right">
+      <li class="divider"></li>
 	      <% if signed_in? %>
-	        <li><%= link_to "Users", users_path %></li>
-	        <li id="fat-menu" class="has-dropdown">
-	          <a href="#">Account</a>
-	          <ul class="dropdown">
+					<li class="divider"></li>
+		      <li class="has-dropdown">
+		        <a href="#">Account</a>
+		        <ul class="dropdown">
 	            <li><%= link_to "Profile", current_user %></li>
 	            <li><%= link_to "Settings", '#' %></li>
 	            <li class="divider"></li>
 	            <li>
 	              <%= link_to "Sign out", signout_path, method: "delete" %>
 	            </li>
-	          </ul>
-	        </li>
+		        </ul>
+		      </li>
+					<li><a href="/users">Users</a></li>
+					<li><a href="/boards">Boards</a></li>
 	      <% else %>
 	        <li><%= link_to "Sign in", signin_path %></li>
 	      <% end %>
-	    </ul>
-	  </ul>
+    </ul>
   </section>
-</header>
+</nav>
