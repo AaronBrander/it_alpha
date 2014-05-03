@@ -6,12 +6,14 @@ class BoardsController < ApplicationController
   # GET /boards.json
   def index
     @boards = Board.all
+    @current_user_id = current_user ? current_user.id : 0
   end
 
   # GET /boards/1
   # GET /boards/1.json
   def show
     @contributors = @board.contributors
+    @current_user_id = current_user ? current_user.id : 0
     @current_user_is_member = false
     @contributors.each{|c| @current_user_is_member = true if c.id == current_user.id }
     

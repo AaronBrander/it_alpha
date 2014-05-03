@@ -1,70 +1,83 @@
 <%= provide(:title, @board.subdomain) %>
 
-<% if @current_user_is_member %>
-<a href="#" class="button radius" data-reveal-id="new-idea">New Idea</a>
-<div id="new-idea" class="reveal-modal small" data-reveal>
-  <h3>Create your awesome new idea here!</h3>
-	<div class="row">
-    <div class="large-12 columns">
-      <label>Name
-        <input type="text" placeholder="What's the name of your idea?" />
-      </label>
-    </div>
-  </div>
-	<div class="row">
-    <div class="large-12 columns">
-      <label>Details
-        <textarea placeholder="Describe your idea, the more detailed the better."></textarea>
-      </label>
-    </div>
-  </div>
-	<hr>
-	<div class="row">
-		<a href="#" class="button radius alert">Create</a>
+<div class="row">
+	<div class="large-9 columns">
+		<h1><%= @board.name %></h1>
+		<% if @contributors.size > 0 %>
+			<h4>Contributors</h4>
+			<ul>
+			<% for user in @contributors %>
+				<li><a href="/users/<%=user.id%>"><%=user.first_name%> <%=user.last_name%></a></li>
+			<% end %>
+			</ul>
+		<% end %>
+
+		<p>
+		  <strong>Subdomain:</strong>
+		  <%= @board.subdomain %>
+		</p>
+
+		<p>
+		  <strong>Name:</strong>
+		  <%= @board.name %>
+		</p>
+
+		<p>
+		  <strong>Description:</strong>
+		  <%= @board.description %>
+		</p>
+
+
+		<p>
+		  <strong>Contact email:</strong>
+		  <%= @board.contact_email %>
+		</p>
+
+		<p>
+		  <strong>State:</strong>
+		  <%= @board.state %>
+		</p>
+
+		<p>
+		  <strong>Is private:</strong>
+		  <%= @board.is_private %>
+		</p>
+
+		<% if @current_user_id == @board.user_id %>
+			<%= link_to 'Edit', edit_board_path(@board) %> | 
+		<% end %>
+
+		<%= link_to 'Back', boards_path %>
 	</div>
-  <a class="close-reveal-modal">&#215;</a>
+  <div class="large-3 columns">
+		<% if @current_user_is_member %>
+		<a href="#" class="button radius" data-reveal-id="new-idea">New Idea</a>
+		<div id="new-idea" class="reveal-modal small" data-reveal>
+			<form action="/ideas" method="post">
+			  <h3>Create your awesome new idea here!</h3>
+				<div class="row">
+			    <div class="large-12 columns">
+			      <label>Name
+			        <input type="text" name="idea[name]" placeholder="What's the name of your idea?" />
+			      </label>
+			    </div>
+			  </div>
+				<div class="row">
+			    <div class="large-12 columns">
+			      <label>Details
+			        <textarea name="idea[description]" placeholder="Describe your idea, the more detailed the better."></textarea>
+			      </label>
+			    </div>
+			  </div>
+				<hr>
+				<div class="row">
+					<input type="submit" class="button radius alert" value="Create">
+				</div>
+				<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+				<input type="hidden" name="idea[board_id]" value="<%=@board.id%>">
+			</form>
+		  <a class="close-reveal-modal">&#215;</a>
+		</div>
+		<% end %>
+  </div>
 </div>
-<% end %>
-
-<% if @contributors.size > 0 %>
-	<h4>Contributors</h4>
-	<ul>
-	<% for user in @contributors %>
-		<li><%=user.first_name%> <%=user.last_name%></li>
-	<% end %>
-	</ul>
-<% end %>
-
-<p>
-  <strong>Subdomain:</strong>
-  <%= @board.subdomain %>
-</p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @board.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @board.description %>
-</p>
-
-
-<p>
-  <strong>Contact email:</strong>
-  <%= @board.contact_email %>
-</p>
-
-<p>
-  <strong>State:</strong>
-  <%= @board.state %>
-</p>
-
-<p>
-  <strong>Is private:</strong>
-  <%= @board.is_private %>
-</p>
-
-<%= link_to 'Edit', edit_board_path(@board) %> |
-<%= link_to 'Back', boards_path %>

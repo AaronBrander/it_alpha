@@ -1,55 +1,59 @@
 <%= provide(:title, full_name(@user)) %>
 <div class="row">
-  <aside class="span4">
-    <section>
-      <h1>
-        <%= gravatar_for @user %>
-        <%= full_name(@user) %>
-      </h1>
-    </section>
-  </aside>
-  <div class="span8">
-  	<h2>Boards</h2>
-  	<% if @user.boards.any? %>
-  		<h3><%= pluralize(@user.boards.count, "board") %> owned
-  		<% if current_user?(@user) %>
-  			<small>| <%= link_to "Add a board", new_board_path %></small>
-  		<% end %>
-  		</h3>
-  		<ul class="board-list">
-  			<% @user.boards.each do |board| %>
-  				<li><%= link_to board.name, board %></li>
-  			<% end %>
-  		</ul>
-  	<% end %>
+	<div class="large-9 columns">
+		<div class="row">
+		  <aside class="span4">
+		    <section>
+		      <h1>
+		        <%= gravatar_for @user %>
+		        <%= full_name(@user) %>
+		      </h1>
+		    </section>
+		  </aside>
+		  <div class="span8">
+		  	<h2>Boards</h2>
+		  	<% if @user.boards.any? %>
+		  		<h3><%= pluralize(@user.boards.count, "board") %> owned
+		  		<% if current_user?(@user) %>
+		  			<small>| <%= link_to "Add a board", new_board_path %></small>
+		  		<% end %>
+		  		</h3>
+		  		<ul class="board-list">
+		  			<% @user.boards.each do |board| %>
+		  				<li><%= link_to board.name, board %></li>
+		  			<% end %>
+		  		</ul>
+		  	<% end %>
 
-  	<% if @user.joined_boards.any? %>
-  	<hr>
-  		<h3><%= pluralize(@user.joined_boards.count, "board") %> joined
-  		</h3>
-  		<ul class="board-list">
-  			<% @user.joined_boards.each do |board| %>
-  				<li><%= link_to board.name, board %>
-              <% if current_user?(@user) %>
-              | <%= link_to "leave", membership_path(board.id), method: :delete, data: {confirm: "Are you sure?"} %>
-            <% end %>
-          </li>
-  			<% end %>
-  		</ul>
-  	<% end %>
+		  	<% if @user.joined_boards.any? %>
+		  	<hr>
+		  		<h3><%= pluralize(@user.joined_boards.count, "board") %> joined
+		  		</h3>
+		  		<ul class="board-list">
+		  			<% @user.joined_boards.each do |board| %>
+		  				<li><%= link_to board.name, board %>
+		              <% if current_user?(@user) %>
+		              | <%= link_to "leave", membership_path(board.id), method: :delete, data: {confirm: "Are you sure?"} %>
+		            <% end %>
+		          </li>
+		  			<% end %>
+		  		</ul>
+		  	<% end %>
 
-    <h2>Ideas</h2>
-    <% if @user.ideas.any? %>
-      <h3><%= @user.ideas.count %> created
-      </h3>
-      <ul class="idea-list">
-        <% @user.ideas.each do |idea| %>
-          <li><%= link_to idea.name, idea %> - <%= idea.board.name %></li>
-        <% end %>
-      </ul>
-    <% end %>
-  </div>	
+		    <h2>Ideas</h2>
+		    <% if @user.ideas.any? %>
+		      <h3><%= @user.ideas.count %> created
+		      </h3>
+		      <ul class="idea-list">
+		        <% @user.ideas.each do |idea| %>
+		          <li><%= link_to idea.name, idea %> - <%= idea.board.name %></li>
+		        <% end %>
+		      </ul>
+		    <% end %>
+		  </div>	
+		</div>
+	</div>
+  <div class="large-3 columns">
+		
+  </div>
 </div>
-
-
-
